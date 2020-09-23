@@ -1,0 +1,47 @@
+version: "2.1"
+
+volumes:
+  webmacs-data:
+
+services:
+  #################################
+  # Setup webmacs.mysql container #
+  #################################
+  webmacs.mariadb:
+    container_name: webmacs.mariadb
+    hostname: webmacs.mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - "webmacs-data:/config/databases"
+    privileged: true
+    build:
+      context: ./webmacs.mysql
+      dockerfile: Dockerfile
+    environment:
+      MYSQL_ROOT_PASSWORD: *****
+      MYSQL_DATABASE: wirbelschicht_db
+      MYSQL_USER: wirbelschicht
+      MYSQL_PASSWORD: *****
+      INSTALL_SAKILA: 1
+      TZ: Europe/London
+
+  ############################################
+  # Setup webmacs.phpmyadmin container #
+  ############################################
+  webmacs.phpmyadmin:
+    container_name: webmacs.phpmyadmin
+    hostname: webmacs.phpmyadmin
+    image: jackgruber/phpmyadmin:armhf
+    links:
+      - webmacs.mariadb
+    ports:
+      - 80:80
+    environment:
+      PMA_HOST: webmacs.mariadb
+      MYSQL_ROOT_PASSWORD: *****
+    depends_on:
+      - webmacs.mariadb
+
+networks:
+  default:
