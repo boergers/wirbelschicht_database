@@ -9,5 +9,5 @@ RUN curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY custom.cnf /etc/test/custom.cnf
-COPY ./custom.cnf /etc/mysql/conf.d/custom.cnf
+COPY custom.cnf /etc/mysql/conf.d/custom.cnf
 
