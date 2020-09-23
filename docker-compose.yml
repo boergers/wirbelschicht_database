@@ -15,9 +15,8 @@ services:
     volumes:
       - "webmacs-data:/config/databases"
     privileged: true
-    build:
-      context: ./webmacs.mysql
-      dockerfile: Dockerfile
+    build: ./mysql
+
     environment:
       MYSQL_ROOT_PASSWORD: *****
       MYSQL_DATABASE: wirbelschicht_db
